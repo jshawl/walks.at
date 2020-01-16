@@ -22,4 +22,5 @@ test:
 
 production:
   <<: *default
+  host: <%= ENV.fetch("HEROKU_POSTGRESQL_CRIMSON_URL") %>
   database: amble_production
