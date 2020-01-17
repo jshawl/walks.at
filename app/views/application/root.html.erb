@@ -1,3 +1,79 @@
-<a href="/">Amble</a><br>
-<%= @num_events %> events.<br>
-Last event at <%= Event.last.created_at %>.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+  </head>
+  <body>
+    <a href="/">Amble</a><br>
+    <%= @num_events %> events.<br>
+    Last event at <%= Event.last.created_at %>.
+    <input type="text" name="dates">
+    <a href="#" id="previous">-1 day</a>
+    <a href="#" id="next">+1 day</a>
+    <div id="mapid" style='height: 600px; width: 600px'></div>
+    <script type="text/javascript">
+
+      function increment(yyyymmdd, days){
+        var d = moment(yyyymmdd).add(days,'days')
+        return d.format("YYYY-MM-DD")
+      }
+
+      function eventsPath(date_from, date_to){
+        return "/?date_from=" + date_from + "&date_to=" + date_to
+      }
+
+      function goTo(int){
+        return function(){
+          window.location = eventsPath(increment("<%= @date_from %>", int), increment("<%= @date_to %>",int))
+        }
+      }
+      next.addEventListener('click', goTo(1))
+      previous.addEventListener('click', goTo(-1))
+
+      var mymap = L.map('mapid').setView([30.2672, -97.7431], 11);
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        accessToken: 'pk.eyJ1IjoiYW1ibGVhcHAiLCJhIjoiY2s1MXFlc2tmMDBudTNtcDhwYTNlMXF6NCJ9.5sCbcBl56vskuJ2o_e27uQ'
+      }).addTo(mymap);
+
+      $('input[name="dates"]').daterangepicker({
+        startDate: '<%= @date_from %>',
+        endDate: '<%= @date_to %>',
+        locale: {
+          format: 'YYYY-MM-DD'
+        }
+      }, function(start, end){
+        console.log(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'))
+        window.location = "/?date_from=" + start.format('YYYY-MM-DD') + "&date_to=" + end.format('YYYY-MM-DD')
+      });
+      getPoints(function(points){
+          var pointList = points.map(point => new L.LatLng(point.lat, point.lng))
+          var firstpolyline = new L.Polyline(pointList, {
+              color: 'blue',
+              weight: 5,
+              opacity: 0.5,
+              smoothFactor: 5
+          });
+          firstpolyline.addTo(mymap);
+        })
+      function getPoints(callback) {
+        $.getJSON("/api/events?date_from=<%= @date_from %>&date_to=<%= @date_to %>", function(response){
+          callback(response.map(datum => {return {lat: datum.latitude, lng: datum.longitude}}))
+        }) 
+      }
+    </script>
+  </body>
+</html>
