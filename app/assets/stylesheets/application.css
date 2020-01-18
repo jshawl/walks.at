@@ -18,3 +18,27 @@
   padding:2em;
   font-family: monospace;
  }
+
+ .geosearch{
+  background: white;
+  
+ }
+ .geosearch form{
+  display: flex;
+  flex-wrap: wrap;
+ }
+ .geosearch input,
+ .geosearch a{
+  flex:1;
+ }
+
+ .geosearch .results{
+  flex:2;
+  flex-basis: 100%;
+ }
+.results [data-key]{
+  cursor: pointer;
+}
+ .results [data-key]:hover{
+  background:#ddd;
+ }

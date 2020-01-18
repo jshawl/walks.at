@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
+    <script type="text/javascript" src='https://unpkg.com/leaflet-geosearch@2.7.0/dist/bundle.min.js'></script>
   </head>
   <body>
     <a href="/">Amble</a><br>
@@ -48,6 +49,28 @@
         id: 'mapbox/streets-v11',
         accessToken: 'pk.eyJ1IjoiYW1ibGVhcHAiLCJhIjoiY2s1MXFlc2tmMDBudTNtcDhwYTNlMXF6NCJ9.5sCbcBl56vskuJ2o_e27uQ'
       }).addTo(mymap);
+
+      const searchControl = new window.GeoSearch.GeoSearchControl({
+  provider: new window.GeoSearch.OpenStreetMapProvider(),
+  style: 'button',
+  autoClose: true,
+  keepResult: true,
+  marker: {
+    draggable: true
+  }
+});
+
+mymap.addControl(searchControl);
+
+      // var marker = new L.marker([30.2672, -97.7431],{
+      //     draggable: true
+      // }).addTo(mymap);
+
+      // marker.on("drag", function(e) {
+      //   var marker = e.target;
+      //   var position = marker.getLatLng();
+      //   mymap.panTo(new L.LatLng(position.lat, position.lng));
+      // });
 
       $('input[name="dates"]').daterangepicker({
         startDate: '<%= @date_from %>',
