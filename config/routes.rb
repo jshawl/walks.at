@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root to: 'application#root'
   namespace :api do
     resources :events, only: [:index]
