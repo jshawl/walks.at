@@ -14,17 +14,7 @@
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
     <script type="text/javascript" src='https://unpkg.com/leaflet-geosearch@2.7.0/dist/bundle.min.js'></script>
-  </head>
-  <body>
-    <a href="/">Amble</a><br>
-    <%= @num_events %> events.<br>
-    Last event at <%= Event.last.created_at %>.
-    <input type="text" name="dates">
-    <a href="#" id="previous">-1 day</a>
-    <a href="#" id="next">+1 day</a>
-    <div id="mapid" style='height: 600px; width: 600px'></div>
     <script type="text/javascript">
-
       function increment(yyyymmdd, days){
         var d = moment(yyyymmdd).add(days,'days')
         return d.format("YYYY-MM-DD")
@@ -39,9 +29,19 @@
           window.location = eventsPath(increment("<%= @date_from %>", int), increment("<%= @date_to %>",int))
         }
       }
+    </script>
+  </head>
+  <body>
+    <a href="/">Amble</a><br>
+    <%= @num_events %> events.<br>
+    Last event at <%= Event.last.created_at %>.
+    <input type="text" name="dates">
+    <a href="#" id="previous">-1 day</a>
+    <a href="#" id="next">+1 day</a>
+    <div id="mapid" style='height: 600px; width: 600px'></div>
+    <script type="text/javascript">
       next.addEventListener('click', goTo(1))
       previous.addEventListener('click', goTo(-1))
-
       var mymap = L.map('mapid').setView([30.2672, -97.7431], 11);
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -51,33 +51,49 @@
       }).addTo(mymap);
 
       const searchControl = new window.GeoSearch.GeoSearchControl({
-  provider: new window.GeoSearch.OpenStreetMapProvider(),
-  style: 'button',
-  autoClose: true,
-  keepResult: true,
-  marker: {
-    draggable: true
-  }
-});
+        provider: new window.GeoSearch.OpenStreetMapProvider(),
+        style: 'button',
+        autoClose: true,
+        showPopup: false,
+        keepResult: true,
+        popupFormat: ({ result }) => `${result.label} <a href="#" class="js-save">Save</a>`,
+      });
+      mymap.addControl(searchControl);
 
-mymap.addControl(searchControl);
-
-      // var marker = new L.marker([30.2672, -97.7431],{
-      //     draggable: true
-      // }).addTo(mymap);
-
-      // marker.on("drag", function(e) {
-      //   var marker = e.target;
-      //   var position = marker.getLatLng();
-      //   mymap.panTo(new L.LatLng(position.lat, position.lng));
-      // });
+      mymap.on('geosearch/showlocation', function(event){
+        var popup = L.popup({on:{click: function(e){
+          debugger;
+        }}}, event.marker).setContent('wtf son')
+        
+        event.marker.bindPopup(popup).on('click', function(o){
+          debugger;
+          o.target.getPopup().on('click',function(e){
+          debugger;
+          if(e.originalEvent.target.classList.contains('js-save')){
+            console.log('POST',{
+              latitude: e.target._latlng.lat,
+              longitude: e.target._latlng.lng
+            })
+          }
+        })
+        }).openPopup()
+        
+      })
+      
 
       $('input[name="dates"]').daterangepicker({
         startDate: '<%= @date_from %>',
         endDate: '<%= @date_to %>',
         locale: {
           format: 'YYYY-MM-DD'
-        }
+        },
+         ranges: {
+          'Today': [moment(), moment()],
+          'Last 7 days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last 365 days': [moment().subtract(365, 'days'), moment()]
+        },
       }, function(start, end){
         console.log(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'))
         window.location = "/?date_from=" + start.format('YYYY-MM-DD') + "&date_to=" + end.format('YYYY-MM-DD')
