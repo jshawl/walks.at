@@ -54,31 +54,21 @@
         provider: new window.GeoSearch.OpenStreetMapProvider(),
         style: 'button',
         autoClose: true,
-        showPopup: false,
+        showPopup: true,
         keepResult: true,
-        popupFormat: ({ result }) => `${result.label} <a href="#" class="js-save">Save</a>`,
+        popupFormat: ({ result }) => {
+          var clickHandler = function(res){
+            return function(event){
+              console.log(res)
+              debugger;
+            }
+          }
+          var el = $(`<div>${result.label} <a href="#" class="js-save">Save</a></div>`)
+          el.on('click', '.js-save',clickHandler(result))
+          return el[0]
+        },
       });
       mymap.addControl(searchControl);
-
-      mymap.on('geosearch/showlocation', function(event){
-        var popup = L.popup({on:{click: function(e){
-          debugger;
-        }}}, event.marker).setContent('wtf son')
-        
-        event.marker.bindPopup(popup).on('click', function(o){
-          debugger;
-          o.target.getPopup().on('click',function(e){
-          debugger;
-          if(e.originalEvent.target.classList.contains('js-save')){
-            console.log('POST',{
-              latitude: e.target._latlng.lat,
-              longitude: e.target._latlng.lng
-            })
-          }
-        })
-        }).openPopup()
-        
-      })
       
 
       $('input[name="dates"]').daterangepicker({
