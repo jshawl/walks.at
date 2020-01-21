@@ -24,6 +24,27 @@
           window.location = eventsPath(increment("<%= @date_from %>", int), increment("<%= @date_to %>",int))
         }
       }
+      var popupClickHandler = function(res){
+        return function(event){
+          $.post("/api/places", {
+            latitude: res.y,
+            longitude: res.x,
+            name: res.label
+          }, function(resp,body){
+            debugger;
+          })
+        }
+      }
+
+      function destroyPlaceHandler(place, marker){
+        return function (e){
+          mymap.removeLayer(marker)
+          $.ajax({
+            url: `/api/places/${place.id}`,
+            type: 'DELETE'
+          })
+        }
+      }
     </script>
     <%= @num_events %> events.<br>
     Last event at <%= Event.last.created_at %>.
@@ -49,13 +70,8 @@
         showPopup: true,
         keepResult: true,
         popupFormat: ({ result }) => {
-          var clickHandler = function(res){
-            return function(event){
-              console.log(res)
-            }
-          }
           var el = $(`<div>${result.label} <a href="#" class="js-save">Save</a></div>`)
-          el.on('click', '.js-save',clickHandler(result))
+          el.on('click', '.js-save',popupClickHandler(result))
           return el[0]
         },
       });
@@ -79,6 +95,15 @@
         console.log(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'))
         window.location = "/?date_from=" + start.format('YYYY-MM-DD') + "&date_to=" + end.format('YYYY-MM-DD')
       });
+      function getPoints(callback) {
+        $.getJSON("/api/events?date_from=<%= @date_from %>&date_to=<%= @date_to %>", function(response){
+          callback(response.map(datum => {return {lat: datum.latitude, lng: datum.longitude}}))
+        }) 
+      }
+      function getPlaces(callback) {
+        $.getJSON("/api/places", callback)
+      }
+
       getPoints(function(points){
           var pointList = points.map(point => new L.LatLng(point.lat, point.lng))
           var firstpolyline = new L.Polyline(pointList, {
@@ -88,10 +113,17 @@
               smoothFactor: 5
           });
           firstpolyline.addTo(mymap);
+      })
+      getPlaces(function(places){
+        places.forEach(function(place){
+          var $label = $(`<div>${place.name} <a href='#' class='js-delete'>Delete<a></div>`)
+          var marker = L.marker([place.latitude, place.longitude])
+          $label.on('click', '.js-delete', destroyPlaceHandler(place, marker))
+          marker.addTo(mymap)
+            .bindPopup($label[0]);
         })
-      function getPoints(callback) {
-        $.getJSON("/api/events?date_from=<%= @date_from %>&date_to=<%= @date_to %>", function(response){
-          callback(response.map(datum => {return {lat: datum.latitude, lng: datum.longitude}}))
-        }) 
-      }
+      })
+
+      
+     
     </script>
