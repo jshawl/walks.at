@@ -1,0 +1,7 @@
+<em>created at <%= @place.created_at %></em>
+<%= form_for(@place) do |f| %>
+
+<%= f.text_area :name, cols: 40, rows: 5 %>
+<br>
+<%= f.submit %>
+<% end %>

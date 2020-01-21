@@ -19,6 +19,20 @@
   font-family: monospace;
  }
 
+ .flex{
+  display: flex;
+ }
+ .jcsb{
+  justify-content: space-between;
+ }
+ .aic{
+  align-items: center;
+ }
+
+ .danger{
+  color:#F8274E !important;
+ }
+
  .geosearch{
   background: white;
   

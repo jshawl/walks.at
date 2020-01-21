@@ -31,7 +31,7 @@
             longitude: res.x,
             name: res.label
           }, function(resp,body){
-            
+
           })
         }
       }
@@ -116,7 +116,14 @@
       })
       getPlaces(function(places){
         places.forEach(function(place){
-          var $label = $(`<div>${place.name} <a href='#' class='js-delete'>Delete<a></div>`)
+          var $label = $(`
+            <div>
+              <strong>${place.name}</strong>
+              <br><br>
+              <a href='#' class='js-delete danger'>Delete<a> |
+              <a href="/places/${place.id}/edit">Edit</a>
+            </div>
+          `)
           var marker = L.marker([place.latitude, place.longitude])
           $label.on('click', '.js-delete', destroyPlaceHandler(place, marker))
           marker.addTo(mymap)
