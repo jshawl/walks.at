@@ -1,7 +1,18 @@
 <em>created at <%= @place.created_at %></em>
 <%= form_for(@place) do |f| %>
-
 <%= f.text_area :name, cols: 40, rows: 5 %>
 <br>
 <%= f.submit %>
 <% end %>
+
+<%= render "application/map" %>
+<script type="text/javascript">
+  var marker = L.marker([<%= @place.latitude %>, <%= @place.longitude %>],{
+    draggable: true
+  })
+  marker.addTo(mymap)
+  mymap.setView(new L.LatLng(<%= @place.latitude %>, <%= @place.longitude %>),14)
+  mymap.on('click', function(e){
+    console.log(e)
+  })
+</script>
