@@ -19,4 +19,7 @@ class Event < ApplicationRecord
       )
     end
   end
+  def self.between(date_from,date_to)
+    where(created_at: Date.parse(date_from).beginning_of_day..Date.parse(date_to).end_of_day)
+  end
 end

@@ -15,8 +15,19 @@
  */
 
  body{
-  padding:2em;
+  padding:0 1em 1em 1em;
+  margin:0 auto;
   font-family: monospace;
+  max-width:900px;
+ }
+
+ header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+ }
+
+ header{
+  padding: 1em 0;
  }
 
  .flex{

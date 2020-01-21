@@ -1,9 +1,12 @@
 class PlacesController < ApplicationController
   def edit
-    @place = Place.find(params[:id])
+    @place = current_user.places.find(params[:id])
+  end
+  def index
+    @places = current_user.places
   end
   def update
-    @place = Place.find(params[:id])
+    @place = current_user.places.find(params[:id])
     @place.update!(place_params)
     redirect_back(fallback_location: place_path(@place))
   end

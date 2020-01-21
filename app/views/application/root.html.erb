@@ -1,4 +1,5 @@
 <% if current_user %>
+  <p>showing <%= @num_events %> events for <%= @date_from %></p>
   <%= render "map" %>
   <%= render "root_map_additions" %>
 <% end %>
