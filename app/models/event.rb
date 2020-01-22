@@ -10,6 +10,7 @@ class Event < ApplicationRecord
     data = JSON.parse(res)["Data"]
     data.each do |datum|
       create(
+        user: User.first,
         created_at: datum["Date"],
         latitude: datum["Latitude"],
         longitude: datum["Longitude"],

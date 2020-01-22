@@ -4,9 +4,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <%= @num_events %> events.<br>
     Last event at <%= Event.last.created_at %>.
-    <input type="text" name="dates">
-    <a href="#" id="previous">-1 day</a>
-    <a href="#" id="next">+1 day</a>
+
+     
 <script type="text/javascript">
       function increment(yyyymmdd, days){
         var d = moment(yyyymmdd).add(days,'days')
