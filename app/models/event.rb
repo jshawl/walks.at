@@ -2,6 +2,7 @@ require 'net/http'
 
 class Event < ApplicationRecord
   validates :created_at, uniqueness: true
+  belongs_to :user
   def self.recent
     yesterday = (Time.now - 1.day).strftime("%F")
     tomorrow = (Time.now + 1.day).strftime("%F")
