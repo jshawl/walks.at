@@ -7,8 +7,11 @@ class Event < ApplicationRecord
     yesterday = (Time.now - 1.day).strftime("%F")
     tomorrow = (Time.now + 1.day).strftime("%F")
     url = "/api/tracks.aspx?key=#{Rails.application.credentials.FOLLOWMEE_API_KEY}&username=#{Rails.application.credentials.FOLLOWMEE_USERNAME}&output=json&function=daterangefordevice&from=#{yesterday}&to=#{tomorrow}&deviceid=#{Rails.application.credentials.FOLLOWMEE_DEVICE_ID}"
-    res = Net::HTTP.get('www.followmee.com', url)
-    data = JSON.parse(res)["Data"]
+    uri = URI.parse("https://www.followmee.com#{url}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    res = http.get(uri.request_uri)
+    data = JSON.parse(res.body)["Data"]
     data.each do |datum|
       create(
         user: User.first,
