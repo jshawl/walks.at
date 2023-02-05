@@ -1,0 +1,38 @@
+<h1>New Place</h1>
+<%= render "application/map" %>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script>
+    function popupClickHandler(res){
+        return async function(event){
+          await fetch("/api/places", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              latitude: res.y,              
+              longitude: res.x,
+              name: res.label
+            })
+          })
+          window.location = "/places"
+        }
+      }
+      const searchControl = new window.GeoSearch.GeoSearchControl({
+        provider: new window.GeoSearch.OpenStreetMapProvider(),
+        autoClose: true,
+        showPopup: true,
+        keepResult: true,
+        popupFormat: ({ result }) => {
+          var el = $(`<div>${result.label} <a href="#" class="js-save">Save</a></div>`)
+          el.on('click', '.js-save',popupClickHandler(result))
+          return el[0]
+        },
+      });
+      mymap.addControl(searchControl);
+     
+    </script>

@@ -15,10 +15,19 @@
  */
 
  body{
-  padding:0 1em 1em 1em;
-  margin:0 auto;
-  font-family: monospace;
-  max-width:900px;
+  font-family: sans-serif;
+  color: #4c2614;
+  line-height: 1.5;
+ }
+
+ html, body {
+  background: #fdfdf5;
+  padding: 0;
+  margin: 0;
+ }
+
+ h1, h2 {
+  font-weight: 500;
  }
 
  header h1 {
@@ -26,9 +35,37 @@
   font-size: 1.2rem;
  }
 
- header{
-  padding: 1em 0;
+ main, header {
+  padding: 1em 2rem;
  }
+ header{
+  border-bottom: 1px solid #4c2614;
+ }
+
+ header a {
+  text-decoration: none;
+  color: inherit;
+ }
+
+ header form {
+  display: inline-block;
+ }
+
+ header input[type="submit"] {
+  color: inherit;
+  font:inherit;
+  font-size: .8rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+ }
+
+ header nav a {
+  padding: 1rem;
+  font-size: .8rem;
+  display: inline-block;
+ }
+
 
  .flex{
   display: flex;

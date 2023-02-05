@@ -1,0 +1,9 @@
+<%= form_for(@place) do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %><br />
+  <%= f.label :latitude %>
+  <%= f.text_field :latitude %><br />
+  <%= f.label :longitude %>
+  <%= f.text_field :longitude %><br />
+  <%= f.submit %>
+<% end %>
