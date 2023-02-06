@@ -6,12 +6,15 @@
     crossorigin=""></script>
 <script type="text/javascript" src='https://unpkg.com/leaflet-geosearch@2.7.0/dist/bundle.min.js'></script>
 
-<div id="mapid" style='height: 300px; max-width: 600px'></div>
+<div id="mapid" style='height: 500px; max-width: 800px'></div>
 <script type="text/javascript">
-  var mymap = L.map('mapid').setView([30.2672, -97.7431], 11);
+console.log()
+  var mymap = L.map('mapid').setView([
+    <%= @place.latitude || 0 %>, <%= @place.longitude  || 0%>
+  ], <%= @place.latitude ? 15 : 3 %>);
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
+    maxZoom: 15,
     id: 'mapbox/streets-v11',
     accessToken: 'pk.eyJ1IjoiYW1ibGVhcHAiLCJhIjoiY2s1MXFlc2tmMDBudTNtcDhwYTNlMXF6NCJ9.5sCbcBl56vskuJ2o_e27uQ'
   }).addTo(mymap);     

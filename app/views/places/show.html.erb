@@ -1,0 +1,4 @@
+<h2><%= @place.name %></h2>
+<em><%= @place.latitude %>, <%= @place.longitude %></em><br><br>
+<%= link_to "Edit Place", edit_place_path(@place) %><br><br>
+<%= render "application/map" %>
