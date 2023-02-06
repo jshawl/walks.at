@@ -20,7 +20,7 @@
 const data = <%= raw @places.to_json %>
 data.map(createPlaceMarker)
 
-function createPlaceMarker(place){ 
+function createPlaceMarker(place){
   var marker = L.marker([place.latitude, place.longitude])
   marker.addTo(mymap)
     .bindPopup(place.name);
