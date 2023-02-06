@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    @events = current_user.events.where('created_at > ?',Date.today)
+    @events = current_user.events.where('created_at > ?',Date.yesterday)
     @place = @events.last
   end
 end
