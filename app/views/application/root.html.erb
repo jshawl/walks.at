@@ -1,9 +1,0 @@
-<% if current_user %>
-  <p>showing <%= @num_events %> events for <%= @date_from %> - <%= @date_to %></p>
-   <input type="text" name="dates">
-      <a href="#" id="previous">-1 day</a>
-      <a href="#" id="next">+1 day</a>
-      <br><br>
-  <%= render "map" %>
-  <%= render "root_map_additions" %>
-<% end %>

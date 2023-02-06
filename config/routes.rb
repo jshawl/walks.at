@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'places#index'
   resources :places
+  resources :events, only: [:index]
   namespace :api do
     resources :events, only: [:index]
     resources :places, only: [:create,:index,:destroy]

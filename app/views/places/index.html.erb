@@ -1,6 +1,6 @@
-<h1>Places</h1>
+<h1>Places <small>(<%= @places.count %>)</small></h1>
 <% if @places.count == 0 %>
-No places yet. 
+
 <%= link_to "Create one", new_place_path %>.
 <% else %>
 
@@ -19,12 +19,12 @@ No places yet.
 
 const data = <%= raw @places.to_json %>
 data.map(createPlaceMarker)
-console.log('data', data)
+
 function createPlaceMarker(place){ 
-        var marker = L.marker([place.latitude, place.longitude])
-        marker.addTo(mymap)
-          .bindPopup(place.name);
-          mymap.setView([place.latitude,place.longitude], 3)
-      }
+  var marker = L.marker([place.latitude, place.longitude])
+  marker.addTo(mymap)
+    .bindPopup(place.name);
+    mymap.setView([place.latitude,place.longitude], 3)
+}
 </script>
 <% end %>
