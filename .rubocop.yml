@@ -2,7 +2,7 @@ Metrics/ClassLength:
   Enabled: false
 Metrics/BlockLength:
   Exclude: 
-    - 'spec/*'
+    - 'spec/*/**.rb'
 Style/Documentation:
   Enabled: false
 AllCops:
