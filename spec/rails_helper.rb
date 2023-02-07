@@ -74,3 +74,13 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+def setup_alice_place
+  @alice = users(:alice)
+  sign_in @alice
+  @place = @alice.places.create!(
+    name: "Awesome new place",
+    latitude: 1,
+    longitude: 1
+  )
+end

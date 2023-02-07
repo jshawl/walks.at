@@ -1,15 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe 'tagging', type: :feature do
+describe 'tagging', type: :feature do
   fixtures :users
   before do
-    @alice = users(:alice)
-    sign_in @alice
-    @place = @alice.places.create!(
-      name: "Awesome new place",
-      latitude: 1,
-      longitude: 1
-    )
+    setup_alice_place
+  end
+  it 'shows places by tag' do
+    @alice.tag(@place, with: 'new, awesome', on: :places)
+    visit places_path(tag: 'new')
+    expect(page).to have_content('new: 1')
+    visit places_path(tag: 'awesome')
+    expect(page).to have_content('awesome: 1')
   end
   it 'shows existing tags for a place' do
     @alice.tag(@place, with: 'new, awesome', on: :places)      
