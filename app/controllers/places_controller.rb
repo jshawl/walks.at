@@ -7,8 +7,12 @@ class PlacesController < ApplicationController
     @place = current_user.places.find(params[:id])
   end
   def index
-    @places = current_user.places.reverse
-    @place = current_user.places.build
+    @place = current_user.places.last
+    @places = if params[:tag]
+      current_user.places.tagged_with(params[:tag]).uniq
+    else
+      current_user.places
+    end    
   end
   def new
     @place = current_user.places.build
@@ -25,10 +29,13 @@ class PlacesController < ApplicationController
   def update
     @place = current_user.places.find(params[:id])
     @place.update!(place_params)
-    redirect_back(fallback_location: place_path(@place))
+    if(place_params[:tag_list])
+      current_user.tag(@place, with: place_params[:tag_list], on: :places)
+    end
+    redirect_to place_path(@place)
   end
   private
   def place_params
-    params.require(:place).permit(:name)
+    params.require(:place).permit(:name, :tag_list)
   end
 end
