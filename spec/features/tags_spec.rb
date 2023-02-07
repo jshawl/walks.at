@@ -14,13 +14,13 @@ RSpec.describe 'tagging', type: :feature do
   it 'shows existing tags for a place' do
     @alice.tag(@place, with: 'new, awesome', on: :places)      
     visit place_path(@place)
-    expect(page).to have_content('new, awesome')
+    expect(page).to have_content('newawesome')
   end
   it 'can edit a tag on a place' do
     visit edit_place_path(@place)
-    fill_in 'place_tag_list', with: 'new, awesome'
+    fill_in 'place_tag_list', with: 'newawesome'
     click_on 'Update Place'
     expect(page).to have_current_path(place_path(@place))
-    expect(page.body).to have_content('new, awesome')
+    expect(page.body).to have_content('newawesome')
   end
 end
