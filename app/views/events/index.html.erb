@@ -1,8 +1,11 @@
+<h1>Events</h1>
+
+<% if params[:date] %>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<%= @events.count %> events today.<br>
+<%= @events.count %> events <%= "on #{params[:date]}" || "today" %>.<br>
 <%= render "application/map" %>
 <script type="text/javascript">
 var pointList = <%= raw @events.to_json %>.map( point =>
@@ -16,3 +19,13 @@ var firstpolyline = new L.Polyline(pointList, {
 });
 firstpolyline.addTo(mymap);
 </script>
+
+<% else %>
+<ul>
+<% @events.each do |date, count| %>
+  <li><%= link_to "#{date} #{count}", events_path(date: date) %></li>
+<% end %>
+</ul>
+<% end %>
+
+
