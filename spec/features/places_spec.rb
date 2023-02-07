@@ -22,10 +22,11 @@ describe 'places', type: :feature do
   end
   it 'can create a new place' do
     visit new_place_path
-    expect(page).to have_current_path('/places/new')
+    fill_in 'place_name', with: 'cool new place'
+    click_on 'Create Place'
+    expect(page).to have_content('cool new place')
     # TODO: test interacting with leaflet
-    # and submitting the form, e.g. just
-    # invoke the save click handler
+    # and submitting the form
   end
   it 'can delete a place' do
     visit edit_place_path(@place)

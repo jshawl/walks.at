@@ -25,7 +25,7 @@ class PlacesController < ApplicationController
 
   def create
     @place = current_user.places.create!(place_params)
-    redirect_back(fallback_location: place_path(@place))
+    redirect_to place_path(@place)
   end
 
   def destroy
