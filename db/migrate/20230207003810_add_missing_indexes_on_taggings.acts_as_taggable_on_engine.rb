@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This migration comes from acts_as_taggable_on_engine (originally 6)
 
 class AddMissingIndexesOnTaggings < ActiveRecord::Migration[6.0]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'places', type: :feature do
@@ -20,15 +22,15 @@ describe 'places', type: :feature do
   end
   it 'can create a new place' do
     visit new_place_path
-    expect(page).to have_current_path("/places/new")
-    # TODO test interacting with leaflet
+    expect(page).to have_current_path('/places/new')
+    # TODO: test interacting with leaflet
     # and submitting the form, e.g. just
     # invoke the save click handler
   end
   it 'can delete a place' do
     visit edit_place_path(@place)
-    expect{
-      click_on "Delete"
-    }.to change{Place.count}.by(-1)
+    expect do
+      click_on 'Delete'
+    end.to change { Place.count }.by(-1)
   end
 end

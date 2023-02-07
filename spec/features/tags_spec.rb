@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'tagging', type: :feature do
@@ -13,7 +15,7 @@ describe 'tagging', type: :feature do
     expect(page).to have_content('awesome: 1')
   end
   it 'shows existing tags for a place' do
-    @alice.tag(@place, with: 'new, awesome', on: :places)      
+    @alice.tag(@place, with: 'new, awesome', on: :places)
     visit place_path(@place)
     expect(page).to have_content('newawesome')
   end
