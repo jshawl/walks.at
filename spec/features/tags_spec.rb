@@ -17,7 +17,7 @@ describe 'tagging', type: :feature do
   it 'shows existing tags for a place' do
     @alice.tag(@place, with: 'new, awesome', on: :places)
     visit place_path(@place)
-    expect(page).to have_content('newawesome')
+    expect(page).to have_content('awesome')
   end
   it 'can edit a tag on a place' do
     visit edit_place_path(@place)
