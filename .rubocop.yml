@@ -1,0 +1,14 @@
+Metrics/ClassLength:
+  Enabled: false
+Metrics/BlockLength:
+  Exclude: 
+    - 'spec/*/**.rb'
+Style/Documentation:
+  Enabled: false
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'db/**/*.rb'
+    - 'config/*'
+    - 'bin/*'

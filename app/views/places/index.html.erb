@@ -1,4 +1,9 @@
-<h1>Places <small>(<%= @places.count %>)</small></h1>
+<h1>
+<%= link_to "Places", places_path %>
+<small>(<% if params[:tag] %><%= params[:tag] %>:
+<% end %><%= @places.count %>)</small>
+
+</h1>
 <% if @places.count == 0 %>
 
 <%= link_to "Create one", new_place_path %>.
@@ -9,10 +14,15 @@
 <% @places.each do |place| %>
   <li>
     <%= link_to place.name, place_path(place)%>
-    <small><%= place.created_at.strftime("%F") %></small>    
+    <small><%= place.created_at.strftime("%F") %></small>   
+    <%= 
+      raw(place.owner_tags_on(current_user, :places).map do |tag|
+        "<a href='#{places_path(tag: tag[:name])}' class='tag'>#{tag[:name]}</a>"
+      end.to_a.join(''))
+    %>
+    
   </li>
 <% end %>
-
 </ol>
 <%= render "application/map" %>
 <script>

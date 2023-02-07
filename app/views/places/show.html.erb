@@ -1,4 +1,11 @@
 <h2><%= @place.name %></h2>
-<em><%= @place.latitude %>, <%= @place.longitude %></em><br><br>
+<h3><%= @place.latitude %>, <%= @place.longitude %></h3>
+<%= 
+      raw(@place.owner_tags_on(current_user, :places).map do |tag|
+        "<a href='#{places_path(tag: tag[:name])}' class='tag'>#{tag[:name]}</a>"
+      end.to_a.join(''))
+    %>
+<em>
+<br /><br />
 <%= link_to "Edit Place", edit_place_path(@place) %><br><br>
 <%= render "application/map" %>
