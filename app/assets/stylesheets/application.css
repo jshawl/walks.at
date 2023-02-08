@@ -39,10 +39,11 @@
   font-size: 1.2rem;
  }
 
- main, header {
+ main {
   padding: 1em 2rem;
  }
  header{
+  padding: 0em 2rem;
   border-bottom: 1px solid #4c2614;
  }
 

@@ -2,18 +2,11 @@
 
 class EventsController < ApplicationController
   def index
-    set_events
-    @place = @events.is_a?(ActiveRecord::AssociationRelation) ? @events.last : Place.new
-  end
-
-  private
-
-  def set_events
     @events = if params[:date]
-                date = Date.parse(params[:date]).beginning_of_day
-                current_user.events.where('created_at >= ? AND created_at <= ?', date, date.end_of_day)
+                current_user.events.by_date(params[:date])
               else
-                current_user.events.group('date(created_at)').count.sort.reverse
+                current_user.events.grouped_by_date
               end
+    @place = params[:date] ? @events.last : Place.new
   end
 end

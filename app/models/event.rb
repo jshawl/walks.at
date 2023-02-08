@@ -5,6 +5,13 @@ require 'net/http'
 class Event < ApplicationRecord
   validates :created_at, uniqueness: true
   belongs_to :user
+
+  scope :grouped_by_date, -> { group('date(created_at)').count.sort.reverse }
+  scope :by_date, lambda { |date|
+    day = Date.parse(date)
+    where('created_at >= ? AND created_at <= ?', day.beginning_of_day, day.end_of_day)
+  }
+
   def self.recent
     yesterday = (Time.now - 1.day).strftime('%F')
     tomorrow = (Time.now + 1.day).strftime('%F')

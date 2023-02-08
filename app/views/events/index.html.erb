@@ -23,7 +23,9 @@ firstpolyline.addTo(mymap);
 <% else %>
 <ul>
 <% @events.each do |date, count| %>
-  <li><%= link_to "#{date} #{count}", events_path(date: date) %></li>
+  <li><%= link_to "#{date.strftime("%A %F")}", events_path(date: date) %>
+  <small>(<%= count %>)</small>
+  </li>
 <% end %>
 </ul>
 <% end %>
