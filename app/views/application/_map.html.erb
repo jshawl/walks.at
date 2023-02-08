@@ -8,7 +8,6 @@
 
 <div id="mapid" style='height: 500px; max-width: 800px'></div>
 <script type="text/javascript">
-console.log()
   var mymap = L.map('mapid').setView([
     <%= @place.latitude || 0 %>, <%= @place.longitude  || 0%>
   ], <%= @place.latitude ? 15 : 3 %>);

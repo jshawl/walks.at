@@ -2,7 +2,11 @@
 
 class EventsController < ApplicationController
   def index
-    @events = current_user.events.where('created_at > ?', Date.yesterday)
-    @place = @events.last
+    @events = if params[:date]
+                current_user.events.by_date(params[:date])
+              else
+                current_user.events.grouped_by_date
+              end
+    @place = params[:date] ? @events.last : Place.new
   end
 end
