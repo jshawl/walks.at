@@ -1,5 +1,7 @@
 <h1>Events</h1>
 
+<%= link_to "Import from moves", integrations_moves_path %>
+
 <% if params[:date] %>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -33,8 +35,9 @@ firstpolyline.addTo(mymap);
   <% else %>
     No events yet.
 
-    <%= link_to "Import from moves", integrations_moves_path %>
   <% end %>
+
+
 <% end %>
 
 
