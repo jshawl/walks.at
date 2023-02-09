@@ -21,13 +21,20 @@ firstpolyline.addTo(mymap);
 </script>
 
 <% else %>
-<ul>
-<% @events.each do |date, count| %>
-  <li><%= link_to "#{date.strftime("%A %F")}", events_path(date: date) %>
-  <small>(<%= count %>)</small>
-  </li>
-<% end %>
-</ul>
+
+  <% if @events.any? %>
+    <ul>
+    <% @events.each do |date, count| %>
+      <li><%= link_to "#{date.strftime("%A %F")}", events_path(date: date) %>
+      <small>(<%= count %>)</small>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+    No events yet.
+
+    <%= link_to "Import from moves", integrations_moves_path %>
+  <% end %>
 <% end %>
 
 
