@@ -1,5 +1,7 @@
 <h1>Events</h1>
 
+<%= link_to "Import from moves", integrations_moves_path %>
+
 <% if params[:date] %>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -21,13 +23,21 @@ firstpolyline.addTo(mymap);
 </script>
 
 <% else %>
-<ul>
-<% @events.each do |date, count| %>
-  <li><%= link_to "#{date.strftime("%A %F")}", events_path(date: date) %>
-  <small>(<%= count %>)</small>
-  </li>
-<% end %>
-</ul>
+
+  <% if @events.any? %>
+    <ul>
+    <% @events.each do |date, count| %>
+      <li><%= link_to "#{date.strftime("%A %F")}", events_path(date: date) %>
+      <small>(<%= count %>)</small>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+    No events yet.
+
+  <% end %>
+
+
 <% end %>
 
 

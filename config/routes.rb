@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   root to: 'places#index'
   resources :places
   resources :events, only: [:index]
+  namespace :integrations do
+    get :moves, to: 'integrations#moves'
+    post :moves_import, to: 'integrations#moves_import'
+  end
   namespace :api do
     resources :events, only: [:index]
     resources :places, only: %i[create index destroy]

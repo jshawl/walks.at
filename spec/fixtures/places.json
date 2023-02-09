@@ -1,0 +1,22 @@
+[
+  {
+    "date": "20230604",
+    "segments": [
+      {
+        "type": "place",
+        "startTime": "20230604T112001-0500",
+        "endTime": "20230604T145457-0500",
+        "place": {
+          "id": 29100058,
+          "name": "Home",
+          "type": "home",
+          "location": {
+            "lat": 38.12345678,
+            "lon": -77.12345678
+          }
+        },
+        "lastUpdate": "20230604T132520Z"
+      }
+    ]
+  }
+]
