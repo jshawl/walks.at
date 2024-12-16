@@ -1,0 +1,7 @@
+<h2>Moves Integration</h2>
+
+<p>Import a Moves Export below:</p>
+<%= form_tag({:action => :moves_import}, :multipart => true) do %>
+  <%= file_field_tag 'places_json' %>
+  <%= submit_tag 'Submit' %>
+<% end %>

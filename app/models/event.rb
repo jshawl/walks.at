@@ -8,7 +8,7 @@ class Event < ApplicationRecord
 
   scope :grouped_by_date, -> { group('date(created_at)').count.sort.reverse }
   scope :by_date, lambda { |date|
-    day = Date.parse(date).yesterday
+    day = Date.parse(date)
     where('created_at >= ? AND created_at <= ?', day.beginning_of_day, day.end_of_day)
   }
 
