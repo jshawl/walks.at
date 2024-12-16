@@ -9,9 +9,9 @@ name: Ruby
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
@@ -27,25 +27,25 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     strategy:
       matrix:
-        ruby-version: ['2.7.2']
+        ruby-version: ["3.3.0"]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Test
-      env:
-        PGUSER: runner
-        PGHOST: 127.0.0.1
-        PGPASSWORD: postgres
-        RAILS_ENV: test
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      run: |
-        sudo apt-get -yqq install libpq-dev
-        bundle exec rails db:create
-        bundle exec rails db:migrate
-        bundle exec rails assets:precompile
-        bundle exec rake
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Test
+        env:
+          PGUSER: runner
+          PGHOST: 127.0.0.1
+          PGPASSWORD: postgres
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+          bundle exec rails assets:precompile
+          bundle exec rake
