@@ -8,80 +8,8 @@
 
 <button class="js-get-current-location">Get Current Location</button>
 <div id="mapid" style='height: 80vh'></div>
-<script type="text/javascript">
-  var mapInstance = L.map('mapid')
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox/streets-v11',
-    accessToken: 'pk.eyJ1IjoiYW1ibGVhcHAiLCJhIjoiY2s1MXFlc2tmMDBudTNtcDhwYTNlMXF6NCJ9.5sCbcBl56vskuJ2o_e27uQ'
-  }).addTo(mapInstance);
-
-  document.querySelector(".js-get-current-location").addEventListener("click" , () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      mapInstance.setView([position.coords.latitude, position.coords.longitude, mapInstance.getZoom()])
-    });
-  })
-
-var pointList = <%= raw @events.to_json %>.map( point =>
-  new L.LatLng(point.latitude, point.longitude)
-)
-
-<% unless Rails.env.production? %>
-const drift = () => (Math.random() / 250) * (Math.random() < 0.5 ? -1 : 1)
-for(let i = 0; i < 3; i++) {
-    pointList = pointList.reduce((acc,el) => {
-        acc.push({lat: el.lat + drift(), lng: el.lng + drift()})
-        return acc
-    }, pointList)
-}
-<% end %>
-
-const bounds = pointList.reduce((acc,el) => {
-    if(el.lat > acc.northernMost) {
-        acc.northernMost = el.lat
-    }
-    if(el.lng > acc.westernMost) {
-        acc.westernMost = el.lng
-    }
-    if(el.lat < acc.southernMost) {
-        acc.southernMost = el.lat
-    }
-    if(el.lng < acc.easternMost) {
-        acc.easternMost = el.lng
-    }
-    return acc;
-}, {
-    northernMost: -Infinity,
-    westernMost: -Infinity,
-    southernMost: Infinity,
-    easternMost: Infinity
-})
-mapInstance.fitBounds([
-    [bounds.northernMost, bounds.westernMost],
-    [bounds.southernMost, bounds.easternMost]
-])
-
-var firstpolyline = new L.Polyline(pointList, {
-    color: 'blue',
-    weight: 5,
-    opacity: 0.5,
-    smoothFactor: 5
-});
-
-const polygonPoints = [
-    [bounds.northernMost, bounds.westernMost],
-    [bounds.southernMost, bounds.easternMost]
-];
-
-pointList.map(point => {
-    if(!point.lat) {
-        throw new Error(JSON.stringify(point))
-    }
-   L.circle([point.lat, point.lng], {radius: 50, stroke: false, fillOpacity: 0.8}).addTo(mapInstance);
-})
-
-mapInstance.addEventListener("moveend", (e) => {
-    console.log(mapInstance.getBounds())
-})
-
+<script>
+var pointList = <%= raw @events.to_json %>
+var env = "<%= Rails.env %>"
 </script>
+<%= javascript_import_module_tag "explore" %>
