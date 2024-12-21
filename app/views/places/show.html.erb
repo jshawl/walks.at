@@ -1,4 +1,5 @@
 <h2><%= @place.name %></h2>
+
 <h3><%= @place.latitude %>, <%= @place.longitude %></h3>
 <%= 
       raw(@place.owner_tags_on(current_user, :places).map do |tag|

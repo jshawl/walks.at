@@ -2,3 +2,4 @@
 
 pin "application"
 pin "explore"
+pin "places"

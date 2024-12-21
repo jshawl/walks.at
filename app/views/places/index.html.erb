@@ -32,9 +32,9 @@ data.map(createPlaceMarker)
 
 function createPlaceMarker(place){
   var marker = L.marker([place.latitude, place.longitude])
-  marker.addTo(mymap)
+  marker.addTo(mapInstance)
     .bindPopup(place.name);
-    mymap.setView([place.latitude,place.longitude], 3)
+    mapInstance.setView([place.latitude,place.longitude], 10)
 }
 </script>
 <% end %>
