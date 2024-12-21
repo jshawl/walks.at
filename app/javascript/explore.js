@@ -1,4 +1,4 @@
-var mapInstance = L.map("mapid");
+const mapInstance = L.map("mapid");
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
   {
@@ -98,4 +98,10 @@ mapInstance.addEventListener("moveend", (e) => {
     bounds._southWest.lat;
   document.querySelector("[name='bookmark[southwest_longitude]']").value =
     bounds._southWest.lng;
+});
+
+document.querySelector(".js-toggle-overlay").addEventListener("change", (e) => {
+  mapInstance.getPane("overlayPane").style.visibility = e.target.checked
+    ? "visible"
+    : "hidden";
 });
