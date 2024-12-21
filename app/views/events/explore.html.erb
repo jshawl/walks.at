@@ -26,14 +26,15 @@ var pointList = <%= raw @events.to_json %>.map( point =>
   new L.LatLng(point.latitude, point.longitude)
 )
 
+<% unless Rails.env.production? %>
 const drift = () => (Math.random() / 250) * (Math.random() < 0.5 ? -1 : 1)
-
 for(let i = 0; i < 3; i++) {
     pointList = pointList.reduce((acc,el) => {
         acc.push({lat: el.lat + drift(), lng: el.lng + drift()})
         return acc
     }, pointList)
 }
+<% end %>
 
 const bounds = pointList.reduce((acc,el) => {
     if(el.lat > acc.northernMost) {
