@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'places#index'
   resources :places
-  resources :events, only: [:index]
+  resources :events, only: [:index] do
+    get "explore", on: :collection
+  end
   namespace :api do
     resources :events, only: [:index]
     resources :places, only: %i[create index destroy]

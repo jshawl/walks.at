@@ -9,4 +9,8 @@ class EventsController < ApplicationController
               end
     @place = params[:date] ? @events.last : Place.new
   end
+
+  def explore
+    @events = current_user.events.where('created_at > ?', 1.month.ago)
+  end
 end
