@@ -65,10 +65,17 @@ const bounds = pointList.reduce(
   }
 );
 
-mapInstance.fitBounds([
-  [bounds._northEast.lat, bounds._northEast.lng],
-  [bounds._southWest.lat, bounds._southWest.lng],
-]);
+if (bookmark.northeast_latitude) {
+  mapInstance.fitBounds([
+    [bookmark.northeast_latitude, bookmark.northeast_longitude],
+    [bookmark.southwest_latitude, bookmark.southwest_longitude],
+  ]);
+} else {
+  mapInstance.fitBounds([
+    [bounds._northEast.lat, bounds._northEast.lng],
+    [bounds._southWest.lat, bounds._southWest.lng],
+  ]);
+}
 
 pointList.map((point) => {
   if (!point.lat) {
@@ -82,5 +89,13 @@ pointList.map((point) => {
 });
 
 mapInstance.addEventListener("moveend", (e) => {
-  console.log(mapInstance.getBounds());
+  const bounds = mapInstance.getBounds();
+  document.querySelector("[name='bookmark[northeast_latitude]']").value =
+    bounds._northEast.lat;
+  document.querySelector("[name='bookmark[northeast_longitude]']").value =
+    bounds._northEast.lng;
+  document.querySelector("[name='bookmark[southwest_latitude]']").value =
+    bounds._southWest.lat;
+  document.querySelector("[name='bookmark[southwest_longitude]']").value =
+    bounds._southWest.lng;
 });

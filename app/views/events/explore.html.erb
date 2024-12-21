@@ -8,8 +8,34 @@
 
 <button class="js-get-current-location">Get Current Location</button>
 <div id="mapid" style='height: 80vh'></div>
+
+<h3>Bookmarks</h3>
+<%= form_for @bookmark do |f| %>
+    <%= f.text_field :northeast_latitude %>
+    <%= f.text_field :northeast_longitude %>
+    <%= f.text_field :southwest_latitude %>
+    <%= f.text_field :southwest_longitude %>
+    <%= f.text_field :name, required: true %>
+    <%= f.submit %>
+<% end %>
+
+<ul>
+    <% @bookmarks.each do |bookmark| %>
+        <% if bookmark.persisted? %>
+            <li>
+                <%= link_to bookmark.name, explore_events_path(bookmark: bookmark.id) %>
+                <td>
+                    <%= form_with url: bookmark_path(bookmark.id), method: :delete do |form| %>
+                        <%= form.submit "Delete" %>
+                    <% end %>
+                </td>
+            </li>
+        <% end %>
+    <% end %>
+</ul>
 <script>
 var pointList = <%= raw @events.to_json %>
 var env = "<%= Rails.env %>"
+var bookmark = <%= raw @bookmark.to_json %>
 </script>
 <%= javascript_import_module_tag "explore" %>

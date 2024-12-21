@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :events, only: [:index] do
     get "explore", on: :collection
   end
+  resources :bookmarks
   namespace :api do
     resources :events, only: [:index]
     resources :places, only: %i[create index destroy]
