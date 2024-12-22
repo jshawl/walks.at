@@ -1,7 +1,8 @@
-places.map(createPlaceMarker);
+import { fitPlaces } from "../application.js";
 
-function createPlaceMarker(place) {
+places.map((place) => {
   var marker = L.marker([place.latitude, place.longitude]);
   marker.addTo(mapInstance).bindPopup(place.name);
-  mapInstance.setView([place.latitude, place.longitude], 10);
-}
+});
+
+fitPlaces(places);

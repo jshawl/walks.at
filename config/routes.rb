@@ -3,7 +3,10 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: 'places#index'
-  resources :places
+  resources :places do
+    get "import", on: :collection
+    post "import_upload", on: :collection
+  end
   resources :events, only: [:index] do
     get "explore", on: :collection
   end

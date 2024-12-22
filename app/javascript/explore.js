@@ -1,3 +1,5 @@
+import { getBounds } from "./application";
+
 const mapInstance = L.map("mapid");
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
@@ -36,41 +38,13 @@ if (env === "development") {
   }
 }
 
-const bounds = pointList.reduce(
-  (acc, el) => {
-    if (el.lat > acc._northEast.lat) {
-      acc._northEast.lat = el.lat;
-    }
-    if (el.lng > acc._northEast.lng) {
-      acc._northEast.lng = el.lng;
-    }
-    if (el.lat < acc._southWest.lat) {
-      acc._southWest.lat = el.lat;
-    }
-    if (el.lng < acc._southWest.lng) {
-      acc._southWest.lng = el.lng;
-    }
-
-    return acc;
-  },
-  {
-    _northEast: {
-      lat: -Infinity,
-      lng: -Infinity,
-    },
-    _southWest: {
-      lat: Infinity,
-      lng: Infinity,
-    },
-  }
-);
-
 if (bookmark.northeast_latitude) {
   mapInstance.fitBounds([
     [bookmark.northeast_latitude, bookmark.northeast_longitude],
     [bookmark.southwest_latitude, bookmark.southwest_longitude],
   ]);
 } else {
+  const bounds = getBounds(pointList);
   mapInstance.fitBounds([
     [bounds._northEast.lat, bounds._northEast.lng],
     [bounds._southWest.lat, bounds._southWest.lng],

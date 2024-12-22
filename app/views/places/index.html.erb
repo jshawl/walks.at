@@ -9,7 +9,10 @@
 <%= link_to "Create one", new_place_path %>.
 <% else %>
 
-<%= link_to "🧭 New Place", new_place_path %>.
+<%= link_to "🧭 New Place", new_place_path %>
+<%= link_to "🗳️ Import Places", import_places_path %>
+<%= render "application/map" %>
+<%= javascript(places: @places) %>
 <ol>
 <% @places.each do |place| %>
   <li>
@@ -24,6 +27,5 @@
   </li>
 <% end %>
 </ol>
-<%= render "application/map" %>
-<%= javascript(places: @places) %>
+
 <% end %>

@@ -29,6 +29,22 @@ class PlacesController < ApplicationController
     redirect_to place_path(@place)
   end
 
+  def import
+  end
+
+  def import_upload
+    data = JSON.parse(params[:places][:data].read)
+    formatted_data = data[0][8].map do |place|
+      current_user.places.create!(
+        latitude: place[1][5][2],
+        longitude: place[1][5][3],
+        created_at: place[9][0],
+        name: place[2]
+      )
+    end
+    redirect_to places_path
+  end
+
   def destroy
     @place = current_user.places.find(params[:id])
     @place.destroy!

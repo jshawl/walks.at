@@ -1,0 +1,4 @@
+<%= form_with url: import_upload_places_path, multipart: true do %>
+<%= file_field :places, :data %>
+<%= submit_tag %>
+<% end %>
