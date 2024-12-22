@@ -12,18 +12,6 @@ L.tileLayer(
   }
 ).addTo(mapInstance);
 
-document
-  .querySelector(".js-get-current-location")
-  .addEventListener("click", () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      mapInstance.setView([
-        position.coords.latitude,
-        position.coords.longitude,
-        mapInstance.getZoom(),
-      ]);
-    });
-  });
-
 pointList = pointList.map(
   (point) => new L.LatLng(point.latitude, point.longitude)
 );

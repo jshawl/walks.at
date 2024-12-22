@@ -6,6 +6,8 @@
     crossorigin=""></script>
 <script type="text/javascript" src='https://unpkg.com/leaflet-geosearch@2.7.0/dist/bundle.min.js'></script>
 
+<button class="js-get-current-location">Get Current Location</button>
+
 <div id="mapid" style='height: 500px; max-width: 800px'></div>
 <script type="text/javascript">
   var mapInstance = L.map('mapid')
@@ -14,6 +16,5 @@
     id: 'mapbox/streets-v11',
     accessToken: 'pk.eyJ1IjoiYW1ibGVhcHAiLCJhIjoiY2s1MXFlc2tmMDBudTNtcDhwYTNlMXF6NCJ9.5sCbcBl56vskuJ2o_e27uQ'
   }).addTo(mapInstance);
-
-
+  mapInstance.setView([0,0], 10);
 </script>

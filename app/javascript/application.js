@@ -37,3 +37,15 @@ export const fitPlaces = (places) => {
     [bounds._southWest.lat, bounds._southWest.lng],
   ]);
 };
+
+document
+  .querySelector(".js-get-current-location")
+  .addEventListener("click", () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      mapInstance.setView([
+        position.coords.latitude,
+        position.coords.longitude,
+        mapInstance.getZoom(),
+      ]);
+    });
+  });
