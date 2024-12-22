@@ -1,17 +1,9 @@
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-      crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-    crossorigin=""></script>
-<script type="text/javascript" src='https://unpkg.com/leaflet-geosearch@2.7.0/dist/bundle.min.js'></script>
-
-<button class="js-get-current-location">Get Current Location</button>
 <label>
 <input type="checkbox" checked class="js-toggle-overlay">
 show overlay
 </label>
-<div id="mapid" style='height: 80vh'></div>
+
+<%= render "application/map" %>
 
 <h3>Bookmarks</h3>
 <%= form_for @bookmark do |f| %>
@@ -37,9 +29,9 @@ show overlay
         <% end %>
     <% end %>
 </ul>
-<script>
-var pointList = <%= raw @events.to_json %>
-var env = "<%= Rails.env %>"
-var bookmark = <%= raw @bookmark.to_json %>
-</script>
-<%= javascript_import_module_tag "explore" %>
+
+<%= javascript(
+    events: @events,
+    env: "#{Rails.env}",
+    bookmark: @bookmark
+) %>
