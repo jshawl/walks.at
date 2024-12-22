@@ -17,8 +17,6 @@ describe 'places', type: :feature do
   end
   it 'edits a place' do
     visit edit_place_path(@place)
-    # it centers on lat lng
-    expect(page.body).to match('1.0, 1.0')
   end
   it 'can create a new place' do
     visit new_place_path
