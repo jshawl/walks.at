@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
   #   @date_to = params[:date_to] || Time.now.strftime("%F")
   #   @num_events = current_user.events.between(@date_from, @date_to).count
   # end
-  before_action :add_source_version_header
+  before_action :add_commit_header
 
-  def add_source_version_header
-    headers['X-Source-Version'] = ENV.fetch('SOURCE_VERSION', nil)
+  def add_commit_header
+    headers['X-Commit'] = ENV.fetch('HEROKU_BUILD_COMMIT', nil)
   end
 end
