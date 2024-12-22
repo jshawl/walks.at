@@ -25,6 +25,7 @@ class PlacesController < ApplicationController
 
   def create
     @place = current_user.places.create!(place_params)
+    current_user.tag(@place, with: place_params[:tag_list], on: :places) if place_params[:tag_list]
     redirect_to place_path(@place)
   end
 

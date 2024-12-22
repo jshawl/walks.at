@@ -1,3 +1,4 @@
+<%= link_to "« places", places_path %>
 <h2><%= @place.name %></h2>
 
 <h3><%= @place.latitude %>, <%= @place.longitude %></h3>
@@ -10,3 +11,4 @@
 <br /><br />
 <%= link_to "Edit Place", edit_place_path(@place) %><br><br>
 <%= render "application/map" %>
+<%= javascript(place: @place)%>

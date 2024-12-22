@@ -25,16 +25,5 @@
 <% end %>
 </ol>
 <%= render "application/map" %>
-<script>
-
-const data = <%= raw @places.to_json %>
-data.map(createPlaceMarker)
-
-function createPlaceMarker(place){
-  var marker = L.marker([place.latitude, place.longitude])
-  marker.addTo(mapInstance)
-    .bindPopup(place.name);
-    mapInstance.setView([place.latitude,place.longitude], 10)
-}
-</script>
+<%= javascript(places: @places) %>
 <% end %>

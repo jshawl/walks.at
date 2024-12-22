@@ -7,19 +7,6 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <%= @events.count %> events <%= "on #{params[:date]}" || "today" %>.<br>
 <%= render "application/map" %>
-<script type="text/javascript">
-var pointList = <%= raw @events.to_json %>.map( point =>
-  new L.LatLng(point.latitude, point.longitude)
-)
-var firstpolyline = new L.Polyline(pointList, {
-    color: 'blue',
-    weight: 5,
-    opacity: 0.5,
-    smoothFactor: 5
-});
-firstpolyline.addTo(mymap);
-</script>
-
 <% else %>
 <ul>
 <% @events.each do |date, count| %>
@@ -30,4 +17,4 @@ firstpolyline.addTo(mymap);
 </ul>
 <% end %>
 
-
+<%= javascript({events: @events}) %>
