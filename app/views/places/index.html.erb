@@ -4,10 +4,7 @@
 <% end %><%= @places.count %>)</small>
 
 </h1>
-<% if @places.count == 0 %>
 
-<%= link_to "Create one", new_place_path %>.
-<% else %>
 
 <%= link_to "🧭 New Place", new_place_path %>
 <%= link_to "🗳️ Import Places", import_places_path %>
@@ -25,7 +22,7 @@
     %>
     
   </li>
-<% end %>
+
 </ol>
 
 <% end %>

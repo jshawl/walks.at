@@ -38,7 +38,7 @@ class PlacesController < ApplicationController
       current_user.places.create!(
         latitude: place[1][5][2],
         longitude: place[1][5][3],
-        created_at: place[9][0],
+        created_at: Time.at(place[9][0]),
         name: place[2]
       )
     end
