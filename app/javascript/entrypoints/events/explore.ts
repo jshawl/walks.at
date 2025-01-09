@@ -1,5 +1,5 @@
 import { fitPlaces } from "../application";
-import type { Place } from "../application";
+import type { Place } from "../";
 
 let pointList = [...events];
 
