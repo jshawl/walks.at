@@ -1,4 +1,4 @@
-import { fitPlaces } from "application";
+import { fitPlaces } from "../application";
 
 let pointList = [...events];
 
