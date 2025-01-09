@@ -11,6 +11,8 @@ mapInstance.on("click", (e) => {
   const { lat, lng } = e.latlng;
   marker = L.marker([lat, lng]);
   marker.addTo(mapInstance);
-  document.querySelector("[name='place[latitude]']").value = lat;
-  document.querySelector("[name='place[longitude]']").value = lng;
+  document.querySelector<HTMLInputElement>("[name='place[latitude]']")!.value =
+    lat;
+  document.querySelector<HTMLInputElement>("[name='place[longitude]']")!.value =
+    lng;
 });
