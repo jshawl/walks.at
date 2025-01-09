@@ -1,4 +1,6 @@
-export const getBounds = (places) =>
+import { Place } from ".";
+
+export const getBounds = (places: Place[]) =>
   places.reduce(
     (acc, el) => {
       if (el.latitude > acc._northEast.lat) {
@@ -28,7 +30,7 @@ export const getBounds = (places) =>
     }
   );
 
-export const fitPlaces = (places) => {
+export const fitPlaces = (places: Place[]) => {
   const bounds = getBounds(places);
   mapInstance?.fitBounds([
     [bounds._northEast.lat, bounds._northEast.lng],

@@ -17,7 +17,6 @@ if (env === "development") {
 }
 
 if (bookmark.northeast_latitude && mapInstance) {
-  console.log("yes mapinstance");
   mapInstance.fitBounds([
     [bookmark.northeast_latitude, bookmark.northeast_longitude],
     [bookmark.southwest_latitude, bookmark.southwest_longitude],

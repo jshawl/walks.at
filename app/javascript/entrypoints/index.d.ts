@@ -8,24 +8,31 @@ type MapInstance = {
   getPane: (selector: string) => HTMLElement;
   getZoom: () => number;
   on: (event: string, callback: Function) => void;
-  removeLayer: (event: string) => void;
+  removeLayer: (marker: Marker) => void;
   setView: (coords: [number, number], zoom: number) => {};
 };
+
+export type Marker = { addTo: Function };
+type L = {
+  circle: (
+    coordinate: [number, number],
+    options: Record<string, unknown>
+  ) => { addTo: Function };
+  LatLng: new (latitude: number, longitude: number) => LeafletLatLng;
+  marker: (coordinates: [number, number]) => Marker;
+  Polyline: new (
+    coordinates: LeafletLatLng[],
+    options: Record<string, unknown>
+  ) => {
+    addTo: Function;
+    _bounds: { _northEast: unknown; _southWest: unknown };
+  };
+};
+
 declare global {
   var mapInstance: MapInstance;
 
-  var L: {
-    circle: (
-      coordinate: [number, number],
-      options: Record<string, unknown>
-    ) => { addTo: Function };
-    LatLng: new (latitude: number, longitude: number) => LeafletLatLng;
-    marker: (coordinates: [number, number]) => { addTo: Function };
-    Polyline: (
-      coordinates: LeafletLatLng[],
-      options: Record<string, unknown>
-    ) => void;
-  };
+  var L: L;
 
   var bookmark: {
     northeast_latitude: number;
