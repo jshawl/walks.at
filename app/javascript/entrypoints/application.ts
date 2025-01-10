@@ -1,6 +1,6 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+import { Place } from ".";
 
-export const getBounds = (places) =>
+export const getBounds = (places: Place[]) =>
   places.reduce(
     (acc, el) => {
       if (el.latitude > acc._northEast.lat) {
@@ -30,22 +30,22 @@ export const getBounds = (places) =>
     }
   );
 
-export const fitPlaces = (places) => {
+export const fitPlaces = (places: Place[]) => {
   const bounds = getBounds(places);
-  mapInstance.fitBounds([
+  mapInstance?.fitBounds([
     [bounds._northEast.lat, bounds._northEast.lng],
     [bounds._southWest.lat, bounds._southWest.lng],
   ]);
 };
 
-document
-  .querySelector(".js-get-current-location")
-  .addEventListener("click", () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      mapInstance.setView([
-        position.coords.latitude,
-        position.coords.longitude,
-        mapInstance.getZoom(),
-      ]);
-    });
+const buttonGetCurrentLocation =
+  document.querySelector(".js-get-current-location") ?? undefined;
+
+buttonGetCurrentLocation?.addEventListener("click", () => {
+  navigator.geolocation.getCurrentPosition((position) => {
+    mapInstance.setView(
+      [position.coords.latitude, position.coords.longitude],
+      mapInstance.getZoom()
+    );
   });
+});

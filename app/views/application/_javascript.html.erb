@@ -3,4 +3,4 @@
         const <%= key %> = <%= raw value.to_json %>
     <% end %>
 </script>
-<%= javascript_import_module_tag @path %>
+<%= vite_typescript_tag "entrypoints/#{@path}" %>
