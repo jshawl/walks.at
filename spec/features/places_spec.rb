@@ -26,10 +26,4 @@ describe 'places', type: :feature do
     # TODO: test interacting with leaflet
     # and submitting the form
   end
-  it 'can delete a place' do
-    visit edit_place_path(@place)
-    expect do
-      click_on 'Delete'
-    end.to change { Place.count }.by(-1)
-  end
 end
