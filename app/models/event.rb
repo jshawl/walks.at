@@ -32,7 +32,7 @@ class Event < ApplicationRecord
   end
 
   def self.get_followmee_data(date_from, date_to)
-    url = "https://www.followmee.com/api/tracks.aspx?key=#{Rails.application.credentials.FOLLOWMEE_API_KEY}&username=#{Rails.application.credentials.FOLLOWMEE_USERNAME}&output=json&function=daterangefordevice&from=#{date_from}&to=#{date_to}&deviceid=#{Rails.application.credentials.FOLLOWMEE_DEVICE_ID}"
+    url = "https://followmee.com/api/tracks.aspx?key=#{Rails.application.credentials.FOLLOWMEE_API_KEY}&username=#{Rails.application.credentials.FOLLOWMEE_USERNAME}&output=json&function=daterangefordevice&from=#{date_from}&to=#{date_to}&deviceid=#{Rails.application.credentials.FOLLOWMEE_DEVICE_ID}"
     get(url)['Data']
   end
 
